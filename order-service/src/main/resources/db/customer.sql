@@ -1,0 +1,7 @@
+DELETE FROM customer WHERE id>0;
+
+INSERT INTO customer VALUES (1);
+INSERT INTO customer VALUES (2);
+INSERT INTO customer VALUES (3);
+INSERT INTO customer VALUES (4);
+INSERT INTO customer VALUES (5);

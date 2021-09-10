@@ -1,0 +1,19 @@
+spring:
+    profiles:
+        active: "default"
+
+services:
+    order-service: "http://localhost:8081"
+    customer-service: "http://localhost:8082"
+
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: "kubernetes"
+
+services:
+    order-service: "http://orderservice:8081"
+    customer-service: "http://customerservice:8082"
