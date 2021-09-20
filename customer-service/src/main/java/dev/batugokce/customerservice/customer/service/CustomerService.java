@@ -5,6 +5,7 @@ import dev.batugokce.customerservice.customer.exception.UsernameAlreadyUsedExcep
 import dev.batugokce.customerservice.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -12,9 +13,10 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    @Transactional
     public void createCustomer(Customer customer) {
         checkUsernameUniqueness(customer.getUsername());
-        customerRepository.save(customer);
+        Customer customerDB = customerRepository.save(customer);
     }
 
     private void checkUsernameUniqueness(String username) {
