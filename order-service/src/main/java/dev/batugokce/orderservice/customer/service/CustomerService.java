@@ -15,4 +15,8 @@ public class CustomerService {
         return customerRepository.findById(customerId).orElse(null);
     }
 
+    public void save(Customer customer) {
+        customerRepository.save(customer);
+    }
+
 }
