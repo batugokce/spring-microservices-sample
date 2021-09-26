@@ -19,14 +19,14 @@ public class RouteConfiguration {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
-                        .path("/get")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
-                        .uri("http://httpbin.org/api"))
-                .route(p -> p
-                        .path("/api/v1/order")
+                        .path("/api/v1/order/**")
+                        .or()
+                        .path("/order/**")
                         .uri(orderServiceUrl))
                 .route(p -> p
-                        .path("/api/v1/customer")
+                        .path("/api/v1/customer/**")
+                        .or()
+                        .path("/customer/**")
                         .uri(customerServiceUrl))
                 .build();
     }
