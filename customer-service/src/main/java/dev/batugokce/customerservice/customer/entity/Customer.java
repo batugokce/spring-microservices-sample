@@ -42,4 +42,8 @@ public class Customer extends AuditableEntity {
     @Column(name = "GENDER")
     private Gender gender;
 
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
 }
