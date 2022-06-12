@@ -1,7 +1,6 @@
 package dev.batugokce.customerservice.customer.service;
 
-import dev.batugokce.customerservice.asynccall.event.CustomerCreationEvent;
-import dev.batugokce.customerservice.asynccall.service.PublishService;
+import dev.batugokce.customerservice.asynccall.producer.CustomerCreationProducer;
 import dev.batugokce.customerservice.customer.entity.Customer;
 import dev.batugokce.customerservice.customer.exception.IncorrectPasswordException;
 import dev.batugokce.customerservice.customer.exception.UserNotFoundException;
@@ -16,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final PublishService publishService;
+    private final CustomerCreationProducer customerCreationProducer;
 
     @Transactional
     public void createCustomer(Customer customer) {
         checkUsernameUniqueness(customer.getUsername());
-        Customer customerDB = customerRepository.save(customer);
-        callPublishService(customerDB);
+        var customerDB = customerRepository.save(customer);
+        customerCreationProducer.publishMessage(customerDB);
     }
 
     @Transactional(readOnly = true)
@@ -45,8 +44,4 @@ public class CustomerService {
         }
     }
 
-    private void callPublishService(Customer customer) {
-        CustomerCreationEvent customerCreationEvent = new CustomerCreationEvent(customer);
-        publishService.sendMessage(customerCreationEvent);
-    }
 }

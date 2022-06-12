@@ -1,6 +1,6 @@
 package dev.batugokce.customerservice.customer.controller.dto;
 
-import dev.batugokce.customerservice.customer.enums.Gender;
+import dev.batugokce.customerservice.customer.entity.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
 

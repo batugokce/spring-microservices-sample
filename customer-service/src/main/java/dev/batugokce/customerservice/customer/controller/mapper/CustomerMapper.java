@@ -1,4 +1,4 @@
-package dev.batugokce.customerservice.customer.mapper;
+package dev.batugokce.customerservice.customer.controller.mapper;
 
 import dev.batugokce.customerservice.customer.controller.dto.CreateCustomerDTO;
 import dev.batugokce.customerservice.customer.controller.dto.CustomerDTO;

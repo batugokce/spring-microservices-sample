@@ -3,8 +3,8 @@ package dev.batugokce.customerservice.customer.controller;
 import dev.batugokce.customerservice.customer.controller.dto.ChangePasswordDTO;
 import dev.batugokce.customerservice.customer.controller.dto.CreateCustomerDTO;
 import dev.batugokce.customerservice.customer.controller.dto.CustomerDTO;
+import dev.batugokce.customerservice.customer.controller.mapper.CustomerMapper;
 import dev.batugokce.customerservice.customer.entity.Customer;
-import dev.batugokce.customerservice.customer.mapper.CustomerMapper;
 import dev.batugokce.customerservice.customer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,10 +28,10 @@ public class CustomerController {
         customerService.createCustomer(customer);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(summary = "finds a customer")
     public CustomerDTO getCustomer(@Parameter(description = "ID number of the customer to be searched")
-                                @RequestParam Long id) {
+                                       @PathVariable Long id) {
         Customer customer = customerService.getCustomer(id);
         return customerMapper.toCustomerDTO(customer);
     }

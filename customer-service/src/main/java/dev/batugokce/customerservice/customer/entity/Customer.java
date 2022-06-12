@@ -1,7 +1,7 @@
 package dev.batugokce.customerservice.customer.entity;
 
 import dev.batugokce.customerservice.common.AuditableEntity;
-import dev.batugokce.customerservice.customer.enums.Gender;
+import dev.batugokce.customerservice.customer.entity.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

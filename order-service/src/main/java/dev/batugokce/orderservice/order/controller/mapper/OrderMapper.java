@@ -1,4 +1,4 @@
-package dev.batugokce.orderservice.order.mapper;
+package dev.batugokce.orderservice.order.controller.mapper;
 
 import dev.batugokce.orderservice.order.controller.dto.ItemDTO;
 import dev.batugokce.orderservice.order.controller.dto.OrderResponseDTO;

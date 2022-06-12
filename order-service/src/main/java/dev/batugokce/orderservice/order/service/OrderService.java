@@ -2,6 +2,7 @@ package dev.batugokce.orderservice.order.service;
 
 import dev.batugokce.orderservice.customer.service.CustomerService;
 import dev.batugokce.orderservice.order.entity.Order;
+import dev.batugokce.orderservice.order.exception.OrderNotFoundException;
 import dev.batugokce.orderservice.order.repository.OrderRepository;
 import dev.batugokce.orderservice.stock.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -23,22 +23,19 @@ public class OrderService {
     @Transactional
     public void saveOrder(long customerId, Map<Long, Integer> itemAmountMap) {
         var customer = customerService.findById(customerId);
+        var items = itemService.checkItemStock(itemAmountMap);
+        var order = new Order(customer);
 
-        if (!Objects.isNull(customer)) {
-            var items = itemService.checkItemStock(itemAmountMap);
-            var order = new Order(customer);
-            order = orderRepository.save(order);
+        order = orderRepository.save(order);
+        order.preparePurchasesAndCalculatePrice(items, itemAmountMap);
 
-            orderItemService.preparePurchases(items, order, itemAmountMap);
-            itemService.updateStock(items, itemAmountMap);
-            order.calculatePrice();
-            orderRepository.save(order);
-        }
+        itemService.updateStock(items, itemAmountMap);
+        orderRepository.save(order);
     }
 
     @Transactional
     public Order getOrder(Long id) {
-        return orderRepository.findById(id).orElse(null);
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
 }

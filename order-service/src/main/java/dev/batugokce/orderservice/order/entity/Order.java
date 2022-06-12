@@ -3,12 +3,19 @@ package dev.batugokce.orderservice.order.entity;
 import dev.batugokce.orderservice.common.AuditableEntity;
 import dev.batugokce.orderservice.customer.entity.Customer;
 import dev.batugokce.orderservice.order.entity.enums.State;
-import lombok.*;
+import dev.batugokce.orderservice.stock.entity.Item;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
@@ -35,7 +42,15 @@ public class Order extends AuditableEntity {
         this.totalPrice = BigDecimal.ZERO;
     }
 
-    public void calculatePrice() {
+    public void preparePurchasesAndCalculatePrice(List<Item> items, Map<Long, Integer> itemAmountMap) {
+        var orderItemsSet = items.stream()
+                .map(item -> new OrderItem(this, item, itemAmountMap.get(item.getId())))
+                .collect(Collectors.toSet());
+        this.setOrderItems(orderItemsSet);
+        this.calculatePrice();
+    }
+
+    private void calculatePrice() {
         this.totalPrice = orderItems.stream()
                 .map(OrderItem::calculatePrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

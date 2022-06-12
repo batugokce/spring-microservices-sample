@@ -2,8 +2,7 @@ package dev.batugokce.orderservice.order.controller;
 
 import dev.batugokce.orderservice.order.controller.dto.CreateOrderDTO;
 import dev.batugokce.orderservice.order.controller.dto.OrderResponseDTO;
-import dev.batugokce.orderservice.order.entity.Order;
-import dev.batugokce.orderservice.order.mapper.OrderMapper;
+import dev.batugokce.orderservice.order.controller.mapper.OrderMapper;
 import dev.batugokce.orderservice.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,8 +21,8 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "creates a new order")
-    public void order(@RequestBody CreateOrderDTO createOrderDTO) {
-        long customerId = createOrderDTO.getCustomerId();
+    public void createOrder(@RequestBody CreateOrderDTO createOrderDTO) {
+        var customerId = createOrderDTO.getCustomerId();
         var itemAmountMap = createOrderDTO.getItemAmountMap();
         orderService.saveOrder(customerId, itemAmountMap);
     }
@@ -32,7 +31,7 @@ public class OrderController {
     @Operation(summary = "finds an order")
     public OrderResponseDTO getOrder(@Parameter(description = "ID number of the order to be searched")
                                          @RequestParam Long id) {
-        Order order = orderService.getOrder(id);
+        var order = orderService.getOrder(id);
         return orderMapper.orderToResponseDTO(order);
     }
 
