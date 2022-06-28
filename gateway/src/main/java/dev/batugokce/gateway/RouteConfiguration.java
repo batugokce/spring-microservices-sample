@@ -15,6 +15,9 @@ public class RouteConfiguration {
     @Value("${services.customer-service}")
     private String customerServiceUrl;
 
+    @Value("${services.payment-service}")
+    private String paymentServiceUrl;
+
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
@@ -28,6 +31,11 @@ public class RouteConfiguration {
                         .or()
                         .path("/customer/**")
                         .uri(customerServiceUrl))
+                .route(p -> p
+                        .path("/api/v1/payment/**")
+                        .or()
+                        .path("/payment/**")
+                        .uri(paymentServiceUrl))
                 .build();
     }
 
