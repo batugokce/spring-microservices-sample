@@ -9,9 +9,13 @@
 - Docker
 - MapStruct
 - SpringDoc
+- GoLang
+- Gin Framework
 
 ### Requirements
-- JDK11
+- JDK17
+- Go 1.18.3
 - Docker
 - Postgres
+- Kubernetes cluster
 
