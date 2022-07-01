@@ -1,0 +1,52 @@
+server:
+  port: 8081
+  error:
+    include-message: always
+
+spring:
+  profiles:
+    active: default
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order-service
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
+  kafka:
+    consumer:
+      group-id: order-service-group
+    bootstrap-servers: localhost:9092
+
+springdoc:
+  swagger-ui:
+    path: /order/swagger
+  api-docs:
+    path: /order/v3/api-docs
+
+create-mock-stock: false
+---
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  kafka:
+    bootstrap-servers: http://kafka-service:9092
+
+create-mock-stock: true

@@ -21,7 +21,7 @@ public class OrderService {
     private final ItemService itemService;
 
     @Transactional
-    public void saveOrder(long customerId, Map<Long, Integer> itemAmountMap) {
+    public Order saveOrder(long customerId, Map<Long, Integer> itemAmountMap) {
         var customer = customerService.findById(customerId);
         var items = itemService.checkItemStock(itemAmountMap);
         var order = new Order(customer);
@@ -30,7 +30,7 @@ public class OrderService {
         order.preparePurchasesAndCalculatePrice(items, itemAmountMap);
 
         itemService.updateStock(items, itemAmountMap);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     @Transactional

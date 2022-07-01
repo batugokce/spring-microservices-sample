@@ -21,10 +21,11 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "creates a new order")
-    public void createOrder(@RequestBody CreateOrderDTO createOrderDTO) {
+    public OrderResponseDTO createOrder(@RequestBody CreateOrderDTO createOrderDTO) {
         var customerId = createOrderDTO.getCustomerId();
         var itemAmountMap = createOrderDTO.getItemAmountMap();
-        orderService.saveOrder(customerId, itemAmountMap);
+        var createdOrder = orderService.saveOrder(customerId, itemAmountMap);
+        return orderMapper.orderToResponseDTO(createdOrder);
     }
 
     @GetMapping
