@@ -28,7 +28,6 @@
   </developers>
 
   <modules>
-    <module>gateway</module>
     <module>order-service</module>
     <module>customer-service</module>
   </modules>
